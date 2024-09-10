@@ -1,2 +1,18 @@
-import pygame #adding the recommended libary for this assignment
-print(kasper siebrands)
+import pygame # add the libary for this assignment (recommended)
+import math # add the possibility to use math or functions to be used for the watch
+
+# Initialize Pygame
+pygame.init()
+
+# Set up display
+screen = pygame.display.set_mode((800, 800))   #800,800 is pixel size of the window
+pygame.display.set_caption("Analog Watch by Kasper Siebrands") # added a name for my watch
+screen.fill((255, 255, 255)) # Fill the screen with white
+
+# Make sure the window stays open until the user closes it copied from draw.py
+run_flag = True
+while run_flag is True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run_flag = False
+    pygame.display.flip() # Refresh the screen so drawing appears
