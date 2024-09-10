@@ -1,15 +1,16 @@
 import pygame # add the libary for this assignment (recommended)
 import math # add the possibility to use math or functions to be used for the watch
 
-# Initialize Pygame
+#initialize Pygame
 pygame.init()
 
-# Set up display
+#set up display
 screen = pygame.display.set_mode((800, 800))   #800,800 is pixel size of the window
 pygame.display.set_caption("Analog Watch by Kasper Siebrands") # added a name for my watch
 screen.fill((255, 255, 255)) # Fill the screen with white
 
-pygame.draw.circle(screen, (255, 0, 0), (400,400), 100, 3) #where to draw, colour, placement, radius, width
+#setup clock
+pygame.draw.circle(screen, (0, 0, 0), (400,400), 380, 3) #where to draw, colour, placement, radius, width
 
 # Make sure the window stays open until the user closes it copied from draw.py
 run_flag = True
