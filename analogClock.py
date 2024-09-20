@@ -9,8 +9,13 @@ screen = pygame.display.set_mode((800, 800))   #800,800 is pixel size of the win
 pygame.display.set_caption("Analog Watch by Kasper Siebrands") # added a name for my watch
 screen.fill((255, 255, 255)) # Fill the screen with white
 
+clock_color = (0,0,0)
+clock_position = (400, 400)
+clock_radius = 380
+clock_widht = 3
+
 #setup clock
-pygame.draw.circle(screen, (0, 0, 0), (400,400), 380, 3) #where to draw, colour, placement, radius, width
+pygame.draw.circle(screen, clock_color, clock_position, clock_radius, clock_widht) #where to draw, colour, placement, radius, width
 
 # Make sure the window stays open until the user closes it copied from draw.py
 run_flag = True
