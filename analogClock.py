@@ -10,8 +10,6 @@ screen = pygame.display.set_mode((800, 800))   #800,800 is pixel size of the win
 pygame.display.set_caption("Analog Watch by Kasper Siebrands") # added a name for my watch
 background_color = (255,255,255)
 
-screen.fill((255, 255, 255)) #backgroundcolor white...
-
 clock = pygame.time.Clock()
 
 big_clock_color = (0,0,0)
@@ -33,7 +31,6 @@ line_width_seconds = 3
 line_width_minutes = 3
 line_width_hours = 5
 
-
 x_center_small_clock_left, y_center_small_clock_left = small_clock_position_left
 x_center_small_clock_right, y_center_small_clock_right = small_clock_position_right
 x_center_big_clock_minutes, y_center_big_clock_minutes = big_clock_position[0], big_clock_position[1]
@@ -41,8 +38,8 @@ x_center_big_clock_hours, y_center_big_clock_hours = big_clock_position[0], big_
 
 
 
-
 #Make sure the window stays open until the user closes it copied from draw.py
+#here is the loop where all animations happen...
 run_flag = True
 while run_flag is True:
     screen.fill(background_color) # refresh background
@@ -54,6 +51,15 @@ while run_flag is True:
     #setup clock small right
     pygame.draw.circle(screen, small_clock_color, small_clock_position_right, small_clock_radius, small_clock_width) #where to draw, colour, placement, radius, width
 
+    #added numbers to the hours
+    font = pygame.font.SysFont(None, 40)
+    for hour in range(1, 13): #1-13 is 12 steps....
+        angle = math.radians(hour * 30 - 90)  # 30 degrees per hour, -90 to start at the top
+        x = big_clock_position[0] + (big_clock_radius - 40) * math.cos(angle) #calculate where to place x
+        y = big_clock_position[1] + (big_clock_radius - 40) * math.sin(angle) #calculate where to place y
+        text = font.render(str(hour), True, big_clock_color) #render in text
+        text_rect = text.get_rect(center=(x, y)) #setting up possition for text
+        screen.blit(text, text_rect) #draw the text
 
     now = datetime.now()
     hours = now.hour % 12 #12 is needed to make it a 12 hour clock, otherwise it wont be like an analog clock...
@@ -103,6 +109,6 @@ while run_flag is True:
     pygame.display.flip()  # Refresh the screen so drawing appears
 
     # Limit the framerate to 24 FPS
-    clock.tick(25)
+    clock.tick(59)
 
 pygame.quit()
