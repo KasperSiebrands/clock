@@ -54,10 +54,20 @@ while run_flag is True:
     #added numbers to the hours
     font = pygame.font.SysFont(None, 40)
     for hour in range(1, 13): #1-13 is 12 steps....
-        angle = math.radians(hour * 30 - 90)  # 30 degrees per hour, -90 to start at the top
-        x = big_clock_position[0] + (big_clock_radius - 40) * math.cos(angle) #calculate where to place x
-        y = big_clock_position[1] + (big_clock_radius - 40) * math.sin(angle) #calculate where to place y
+        angle_text_hour = math.radians(hour * 30 - 90)  # 30 degrees per hour, -90 to start at the top
+        x = big_clock_position[0] + (big_clock_radius - 40) * math.cos(angle_text_hour) #calculate where to place x
+        y = big_clock_position[1] + (big_clock_radius - 40) * math.sin(angle_text_hour) #calculate where to place y
         text = font.render(str(hour), True, big_clock_color) #render in text
+        text_rect = text.get_rect(center=(x, y)) #setting up possition for text
+        screen.blit(text, text_rect) #draw the text
+    
+    #added numbers to the seconds
+    font = pygame.font.SysFont(None, 10)
+    for minute in range(1, 61): #1-61 is 60 steps....
+        angle_text_seconds = math.radians(minute * 6 - 90)  # 30 degrees per hour, -90 to start at the top
+        x = small_clock_position_left[0] + (small_clock_radius - 10) * math.cos(angle_text_seconds) #calculate where to place x
+        y = small_clock_position_left[1] + (small_clock_radius - 10) * math.sin(angle_text_seconds) #calculate where to place y
+        text = font.render(str(minute), True, small_clock_color) #render in text
         text_rect = text.get_rect(center=(x, y)) #setting up possition for text
         screen.blit(text, text_rect) #draw the text
 
