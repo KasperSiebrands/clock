@@ -15,21 +15,24 @@ clock = pygame.time.Clock()
 big_clock_color = (0,0,0)
 big_clock_position = (400, 400)
 big_clock_radius = 380
-big_clock_widht = 5
-length_big_clock_minutes = 360
-length_big_clock_hours = 300
+big_clock_widht = 10
+length_big_clock_minutes = 350
+length_big_clock_hours = 200
 
-small_clock_color = (0,0,0)
+small_clock_color = (100,100,100)
 small_clock_position_left = (250, 525)
 small_clock_position_right = (550, 525)
 small_clock_radius = 100
-small_clock_width = 3
+small_clock_width = 5
 length_small_clock_seconds = 90  # Length of the second
 
-line_color_seconds = (0,0,0)
+line_color_hours = (0,0,0)
+line_color_minutes = (0,0,0)
+line_color_seconds = (100,100,100)
+
 line_width_seconds = 3
-line_width_minutes = 3
-line_width_hours = 5
+line_width_minutes = 8
+line_width_hours = 20
 
 x_center_small_clock_left, y_center_small_clock_left = small_clock_position_left
 x_center_small_clock_right, y_center_small_clock_right = small_clock_position_right
@@ -65,9 +68,19 @@ while run_flag is True:
     font = pygame.font.SysFont(None, 10)
     for minute in range(1, 61): #1-61 is 60 steps....
         angle_text_seconds = math.radians(minute * 6 - 90)  # 30 degrees per hour, -90 to start at the top
-        x = small_clock_position_left[0] + (small_clock_radius - 10) * math.cos(angle_text_seconds) #calculate where to place x
-        y = small_clock_position_left[1] + (small_clock_radius - 10) * math.sin(angle_text_seconds) #calculate where to place y
+        x = small_clock_position_left[0] + (small_clock_radius - 20) * math.cos(angle_text_seconds) #calculate where to place x
+        y = small_clock_position_left[1] + (small_clock_radius - 20) * math.sin(angle_text_seconds) #calculate where to place y
         text = font.render(str(minute), True, small_clock_color) #render in text
+        text_rect = text.get_rect(center=(x, y)) #setting up possition for text
+        screen.blit(text, text_rect) #draw the text
+
+    #added numbers to the milliseconds
+    font = pygame.font.SysFont(None, 10)
+    for millisecond in range(0, 1000,50):  # 0-1000 in steps of 100... because 1000 is to much
+        angle_text_milliseconds = math.radians(millisecond * 0.36 - 90)  # 30 degrees per hour, -90 to start at the top
+        x = small_clock_position_right[0] + (small_clock_radius - 20) * math.cos(angle_text_milliseconds) #calculate where to place x
+        y = small_clock_position_right[1] + (small_clock_radius - 20) * math.sin(angle_text_milliseconds) #calculate where to place y
+        text = font.render(str(millisecond), True, small_clock_color) #render in text
         text_rect = text.get_rect(center=(x, y)) #setting up possition for text
         screen.blit(text, text_rect) #draw the text
 
@@ -101,9 +114,9 @@ while run_flag is True:
 
 
     # Draw the hours big clock
-    pygame.draw.line(screen, line_color_seconds, (x_center_big_clock_hours, y_center_big_clock_hours), (x_end_big_clock_hours, y_end_bog_clock_hours), line_width_hours)  #aaline is more soft around edges...
+    pygame.draw.line(screen, line_color_hours, (x_center_big_clock_hours, y_center_big_clock_hours), (x_end_big_clock_hours, y_end_bog_clock_hours), line_width_hours)  #aaline is more soft around edges...
     # Draw the minutes big clock
-    pygame.draw.line(screen, line_color_seconds, (x_center_big_clock_minutes, y_center_big_clock_minutes), (x_end_big_clock_minutes, y_end_bog_clock_minutes), line_width_minutes)  #aaline is more soft around edges...
+    pygame.draw.line(screen, line_color_minutes, (x_center_big_clock_minutes, y_center_big_clock_minutes), (x_end_big_clock_minutes, y_end_bog_clock_minutes), line_width_minutes)  #aaline is more soft around edges...
     # Draw the second hand left
     pygame.draw.line(screen, line_color_seconds, (x_center_small_clock_left, y_center_small_clock_left), (x_end_small_clock_left, y_end_small_clock_left), line_width_seconds)  #aaline is more soft around edges...
     # Draw the second hand right
