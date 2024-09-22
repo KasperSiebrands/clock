@@ -18,6 +18,7 @@ big_clock_radius = 380
 big_clock_widht = 10
 length_big_clock_minutes = 350
 length_big_clock_hours = 200
+minute_mark_length = 20
 
 small_clock_color = (100,100,100)
 small_clock_position_left = (250, 525)
@@ -63,6 +64,16 @@ while run_flag is True:
         text = font.render(str(hour), True, big_clock_color) #render in text
         text_rect = text.get_rect(center=(x, y)) #setting up possition for text
         screen.blit(text, text_rect) #draw the text
+
+    # Add minute marks to the big clock
+    for minute in range(60):
+        angle_text_minutes = math.radians(minute * 6 - 90) #-90 to start at top
+        x_start = big_clock_position[0] + (big_clock_radius - minute_mark_length) * math.cos(angle_text_minutes)
+        y_start = big_clock_position[1] + (big_clock_radius - minute_mark_length) * math.sin(angle_text_minutes)
+        x_end = big_clock_position[0] + big_clock_radius * math.cos(angle_text_minutes)
+        y_end = big_clock_position[1] + big_clock_radius * math.sin(angle_text_minutes)
+        
+        pygame.draw.line(screen, big_clock_color, (x_start, y_start), (x_end, y_end), 4)
     
     #added numbers to the seconds
     font = pygame.font.SysFont(None, 10)
@@ -98,11 +109,11 @@ while run_flag is True:
 
     # Calculate the end position of the hours for big circle
     x_end_big_clock_hours = x_center_big_clock_hours + length_big_clock_hours * math.sin(angle_hours) #calculate the end of the line
-    y_end_bog_clock_hours = y_center_big_clock_hours - length_big_clock_hours * math.cos(angle_hours) #calculate the end of the line
+    y_end_big_clock_hours = y_center_big_clock_hours - length_big_clock_hours * math.cos(angle_hours) #calculate the end of the line
     
     # Calculate the end position of the minutes for big circle
     x_end_big_clock_minutes = x_center_big_clock_minutes + length_big_clock_minutes * math.sin(angle_minutes) #calculate the end of the line
-    y_end_bog_clock_minutes = y_center_big_clock_minutes - length_big_clock_minutes * math.cos(angle_minutes) #calculate the end of the line
+    y_end_big_clock_minutes = y_center_big_clock_minutes - length_big_clock_minutes * math.cos(angle_minutes) #calculate the end of the line
     
     # Calculate the end position of the second for left circle
     x_end_small_clock_left = x_center_small_clock_left + length_small_clock_seconds * math.sin(angle_seconds) #calculate the end of the line
@@ -114,9 +125,9 @@ while run_flag is True:
 
 
     # Draw the hours big clock
-    pygame.draw.line(screen, line_color_hours, (x_center_big_clock_hours, y_center_big_clock_hours), (x_end_big_clock_hours, y_end_bog_clock_hours), line_width_hours)  #aaline is more soft around edges...
+    pygame.draw.line(screen, line_color_hours, (x_center_big_clock_hours, y_center_big_clock_hours), (x_end_big_clock_hours, y_end_big_clock_hours), line_width_hours)  #aaline is more soft around edges...
     # Draw the minutes big clock
-    pygame.draw.line(screen, line_color_minutes, (x_center_big_clock_minutes, y_center_big_clock_minutes), (x_end_big_clock_minutes, y_end_bog_clock_minutes), line_width_minutes)  #aaline is more soft around edges...
+    pygame.draw.line(screen, line_color_minutes, (x_center_big_clock_minutes, y_center_big_clock_minutes), (x_end_big_clock_minutes, y_end_big_clock_minutes), line_width_minutes)  #aaline is more soft around edges...
     # Draw the second hand left
     pygame.draw.line(screen, line_color_seconds, (x_center_small_clock_left, y_center_small_clock_left), (x_end_small_clock_left, y_end_small_clock_left), line_width_seconds)  #aaline is more soft around edges...
     # Draw the second hand right
