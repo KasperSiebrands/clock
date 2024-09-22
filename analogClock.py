@@ -27,7 +27,7 @@ small_clock_width = 3
 
 line_color_seconds = (0,0,0)
 line_width_seconds = 3
-x_center, y_center = 400, 400
+x_center_small_clock_left, y_center_small_clock_left = 250, 525
 
 
 
@@ -51,13 +51,13 @@ while run_flag is True:
 
     angle = math.radians(milliseconds * 0.006)  # 360 degrees / 60000 milliseconds = 0.006 degrees per millisecond
 
-    # Calculate the end position of the second
-    length = 300  # Length of the second
-    x_end = x_center + length * math.sin(angle) #calculate the end of the line
-    y_end = y_center - length * math.cos(angle) #calculate the end of the line
+    # Calculate the end position of the second for left circle
+    length_small_clock = 90  # Length of the second
+    x_end_small_clock = x_center_small_clock_left + length_small_clock * math.sin(angle) #calculate the end of the line
+    y_end_small_clock = y_center_small_clock_left - length_small_clock * math.cos(angle) #calculate the end of the line
 
     # Draw the second hand
-    pygame.draw.line(screen, line_color_seconds, (x_center, y_center), (x_end, y_end), line_width_seconds)  #aaline is more soft around edges...
+    pygame.draw.line(screen, line_color_seconds, (x_center_small_clock_left, y_center_small_clock_left), (x_end_small_clock, y_end_small_clock), line_width_seconds)  #aaline is more soft around edges...
 
 
 
