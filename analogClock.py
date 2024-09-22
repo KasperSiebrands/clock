@@ -28,6 +28,7 @@ small_clock_width = 3
 line_color_seconds = (0,0,0)
 line_width_seconds = 3
 x_center_small_clock_left, y_center_small_clock_left = 250, 525
+x_center_small_clock_right, y_center_small_clock_right = 550, 525
 
 
 
@@ -47,17 +48,25 @@ while run_flag is True:
 
     now = datetime.now()
     seconds = now.second
-    milliseconds = now.second * 1000 + now.microsecond // 1000
-
-    angle = math.radians(milliseconds * 0.006)  # 360 degrees / 60000 milliseconds = 0.006 degrees per millisecond
-
+    milliseconds = now.microsecond // 1000
+    
+    angle_seconds = math.radians(seconds * 6)
+    
+    angle_milliseconds = math.radians(milliseconds * 0.36)
+    
     # Calculate the end position of the second for left circle
     length_small_clock = 90  # Length of the second
-    x_end_small_clock = x_center_small_clock_left + length_small_clock * math.sin(angle) #calculate the end of the line
-    y_end_small_clock = y_center_small_clock_left - length_small_clock * math.cos(angle) #calculate the end of the line
+    x_end_small_clock_left = x_center_small_clock_left + length_small_clock * math.sin(angle_seconds) #calculate the end of the line
+    y_end_small_clock_left = y_center_small_clock_left - length_small_clock * math.cos(angle_seconds) #calculate the end of the line
 
-    # Draw the second hand
-    pygame.draw.line(screen, line_color_seconds, (x_center_small_clock_left, y_center_small_clock_left), (x_end_small_clock, y_end_small_clock), line_width_seconds)  #aaline is more soft around edges...
+    x_end_small_clock_right = x_center_small_clock_right + length_small_clock * math.sin(angle_milliseconds) #calculate the end of the line
+    y_end_small_clock_right = y_center_small_clock_right - length_small_clock * math.cos(angle_milliseconds) #calculate the end of the line
+
+    # Draw the second hand left
+    pygame.draw.line(screen, line_color_seconds, (x_center_small_clock_left, y_center_small_clock_left), (x_end_small_clock_left, y_end_small_clock_left), line_width_seconds)  #aaline is more soft around edges...
+
+    # Draw the second hand right
+    pygame.draw.line(screen, line_color_seconds, (x_center_small_clock_right, y_center_small_clock_right), (x_end_small_clock_right, y_end_small_clock_right), line_width_seconds)  #aaline is more soft around edges...
 
 
 
