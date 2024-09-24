@@ -12,6 +12,23 @@ background_color = (255,255,255)
 
 clock = pygame.time.Clock()
 
+
+#text information made y and name
+font_made_by = pygame.font.SysFont(None, 15)  # Set font and size for the name
+font_name = pygame.font.SysFont(None, 20)  # Set font and size for the "watches" text
+
+information_text = font_made_by.render("Made by", True, (0, 0, 0))  # Render the name in black
+name_text = font_name.render("Kasper siebrands", True, (0, 0, 0))  # Render the "watches" text in black
+
+information_rect = information_text.get_rect(center=(400, 630))  # Position at x=400, y=200
+name_rect = name_text.get_rect(center=(400, 650))  # Position the "watches" text below the name
+
+#font for hours, minutes, seconds and milliseconds
+font_hours = pygame.font.SysFont(None, 40)
+font_seconds = pygame.font.SysFont(None, 10)
+font_milliseconds = pygame.font.SysFont(None, 10)
+
+
 #information about big clock, where hours and minutes are shown
 big_clock_color = (0,0,0)
 big_clock_position = (400, 400)
@@ -33,6 +50,7 @@ small_clock_position_left = (250, 525)
 small_clock_position_right = (550, 525)
 small_clock_radius = 100
 small_clock_width = 5
+small_clock_hour_text_lenght =  20
 small_clock_text_space = 2
 
 #information about the hands who show what time it is.
@@ -75,33 +93,35 @@ while run_flag is True:
     pygame.draw.circle(screen, small_clock_color, small_clock_position_left, dot_small_clock_radius, dot_small_clock_width)
     pygame.draw.circle(screen, small_clock_color, small_clock_position_right, dot_small_clock_radius, dot_small_clock_width)
 
+    # Draw the text on the screen
+    screen.blit(information_text, information_rect)
+    screen.blit(name_text, name_rect)
+
     #added numbers to the hours
-    font = pygame.font.SysFont(None, 40)
     for hour in range(1, 13): #1-13 is 12 steps....
         angle_text_hour = math.radians(hour * 30 - 90)  # 30 degrees per hour, -90 to start at the top
         x = big_clock_position[0] + (big_clock_radius - big_clock_hour_text_lenght) * math.cos(angle_text_hour) #calculate where to place x
         y = big_clock_position[1] + (big_clock_radius - big_clock_hour_text_lenght) * math.sin(angle_text_hour) #calculate where to place y
-        text = font.render(str(hour), True, big_clock_color) #render in text
+        text = font_hours.render(str(hour), True, big_clock_color) #render in text
         text_rect = text.get_rect(center=(x, y)) #setting up possition for text
         screen.blit(text, text_rect) #draw the text
 
     #added numbers to the seconds
-    font = pygame.font.SysFont(None, 10)
     for second in range(1, 61): #1-61 is 60 steps....
         angle_text_seconds = math.radians(second * 6 - 90)  # 30 degrees per hour, -90 to start at the top
-        x = small_clock_position_left[0] + (small_clock_radius - 20) * math.cos(angle_text_seconds) #calculate where to place x
-        y = small_clock_position_left[1] + (small_clock_radius - 20) * math.sin(angle_text_seconds) #calculate where to place y
-        text = font.render(str(second), True, small_clock_color) #render in text
+        x = small_clock_position_left[0] + (small_clock_radius - small_clock_hour_text_lenght) * math.cos(angle_text_seconds) #calculate where to place x
+        y = small_clock_position_left[1] + (small_clock_radius - small_clock_hour_text_lenght) * math.sin(angle_text_seconds) #calculate where to place y
+        text = font_seconds.render(str(second), True, small_clock_color) #render in text
         text_rect = text.get_rect(center=(x, y)) #setting up possition for text
         screen.blit(text, text_rect) #draw the text
 
     #added numbers to the milliseconds
-    font = pygame.font.SysFont(None, 10)
+
     for millisecond in range(0, 1000,50):  # 0-1000 in steps of 100... because 1000 is to much
         angle_text_milliseconds = math.radians(millisecond * 0.36 - 90)  # 30 degrees per hour, -90 to start at the top
-        x = small_clock_position_right[0] + (small_clock_radius - 20) * math.cos(angle_text_milliseconds) #calculate where to place x
-        y = small_clock_position_right[1] + (small_clock_radius - 20) * math.sin(angle_text_milliseconds) #calculate where to place y
-        text = font.render(str(millisecond), True, small_clock_color) #render in text
+        x = small_clock_position_right[0] + (small_clock_radius - small_clock_hour_text_lenght) * math.cos(angle_text_milliseconds) #calculate where to place x
+        y = small_clock_position_right[1] + (small_clock_radius - small_clock_hour_text_lenght) * math.sin(angle_text_milliseconds) #calculate where to place y
+        text = font_milliseconds.render(str(millisecond), True, small_clock_color) #render in text
         text_rect = text.get_rect(center=(x, y)) #setting up possition for text
         screen.blit(text, text_rect) #draw the text
 
