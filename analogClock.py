@@ -18,6 +18,7 @@ big_clock_radius = 380
 big_clock_widht = 10
 length_big_clock_minutes = 350
 length_big_clock_hours = 200
+big_clock_hour_text_placement =  40
 
 minute_mark_length = 20
 second_mark_length = 10
@@ -27,15 +28,18 @@ small_clock_position_left = (250, 525)
 small_clock_position_right = (550, 525)
 small_clock_radius = 100
 small_clock_width = 5
-length_small_clock_seconds = 90  # Length of the second
 
 line_color_hours = (0,0,0)
-line_color_minutes = (0,0,0)
-line_color_seconds = (100,100,100)
-
-line_width_seconds = 3
-line_width_minutes = 8
 line_width_hours = 20
+
+line_color_minutes = (0,0,0)
+line_width_minutes = 15
+
+line_color_seconds = (100,100,100)
+line_width_seconds = 3
+line_lenght_small_clock_seconds = 90
+
+
 
 x_center_small_clock_left, y_center_small_clock_left = small_clock_position_left
 x_center_small_clock_right, y_center_small_clock_right = small_clock_position_right
@@ -57,12 +61,13 @@ while run_flag is True:
     #setup clock small right
     pygame.draw.circle(screen, small_clock_color, small_clock_position_right, small_clock_radius, small_clock_width) #where to draw, colour, placement, radius, width
 
+
     #added numbers to the hours
     font = pygame.font.SysFont(None, 40)
     for hour in range(1, 13): #1-13 is 12 steps....
         angle_text_hour = math.radians(hour * 30 - 90)  # 30 degrees per hour, -90 to start at the top
-        x = big_clock_position[0] + (big_clock_radius - 40) * math.cos(angle_text_hour) #calculate where to place x
-        y = big_clock_position[1] + (big_clock_radius - 40) * math.sin(angle_text_hour) #calculate where to place y
+        x = big_clock_position[0] + (big_clock_radius - big_clock_hour_text_placement) * math.cos(angle_text_hour) #calculate where to place x
+        y = big_clock_position[1] + (big_clock_radius - big_clock_hour_text_placement) * math.sin(angle_text_hour) #calculate where to place y
         text = font.render(str(hour), True, big_clock_color) #render in text
         text_rect = text.get_rect(center=(x, y)) #setting up possition for text
         screen.blit(text, text_rect) #draw the text
@@ -87,17 +92,7 @@ while run_flag is True:
         text_rect = text.get_rect(center=(x, y)) #setting up possition for text
         screen.blit(text, text_rect) #draw the text
 
-    # Add minute marks to the big clock
-    for minute in range(60):
-        angle_text_minutes = math.radians(minute * 6 - 90) #-90 to start at top
-        x_start = big_clock_position[0] + (big_clock_radius - minute_mark_length) * math.cos(angle_text_minutes)
-        y_start = big_clock_position[1] + (big_clock_radius - minute_mark_length) * math.sin(angle_text_minutes)
-        x_end = big_clock_position[0] + big_clock_radius * math.cos(angle_text_minutes)
-        y_end = big_clock_position[1] + big_clock_radius * math.sin(angle_text_minutes)
-        
-        pygame.draw.line(screen, big_clock_color, (x_start, y_start), (x_end, y_end), 4)
-    
-    # Add second marks to the small clock
+     # Add second marks to the small clock, it reads first in document so it's a lower layer than the minutemark.
     for second in range(60):
         angle_text_seconds = math.radians(second * 6 - 90)
         x_start = small_clock_position_left[0] + (small_clock_radius - second_mark_length) * math.cos(angle_text_seconds)
@@ -107,6 +102,17 @@ while run_flag is True:
         
         pygame.draw.line(screen, small_clock_color, (x_start, y_start), (x_end, y_end), 1)
     
+    # Add minute marks to the big clock
+    for minute in range(60):
+        angle_text_minutes = math.radians(minute * 6 - 90) #-90 to start at top
+        x_start = big_clock_position[0] + (big_clock_radius - minute_mark_length) * math.cos(angle_text_minutes)
+        y_start = big_clock_position[1] + (big_clock_radius - minute_mark_length) * math.sin(angle_text_minutes)
+        x_end = big_clock_position[0] + big_clock_radius * math.cos(angle_text_minutes) 
+        y_end = big_clock_position[1] + big_clock_radius * math.sin(angle_text_minutes) 
+    
+        pygame.draw.line(screen, big_clock_color, (x_start, y_start), (x_end, y_end), 4)
+    
+
     # Add millisecond marks to the small clock
     for millisecond in range(0, 1000,50):
         angle_text_milliseconds = math.radians(millisecond * 0.36 - 90)
@@ -138,12 +144,12 @@ while run_flag is True:
     y_end_big_clock_minutes = y_center_big_clock_minutes - length_big_clock_minutes * math.cos(angle_minutes) #calculate the end of the line
     
     # Calculate the end position of the second for left circle
-    x_end_small_clock_left = x_center_small_clock_left + length_small_clock_seconds * math.sin(angle_seconds) #calculate the end of the line
-    y_end_small_clock_left = y_center_small_clock_left - length_small_clock_seconds * math.cos(angle_seconds) #calculate the end of the line
+    x_end_small_clock_left = x_center_small_clock_left + line_lenght_small_clock_seconds * math.sin(angle_seconds) #calculate the end of the line
+    y_end_small_clock_left = y_center_small_clock_left - line_lenght_small_clock_seconds * math.cos(angle_seconds) #calculate the end of the line
 
    # Calculate the end position of the second for right circle
-    x_end_small_clock_right = x_center_small_clock_right + length_small_clock_seconds * math.sin(angle_milliseconds) #calculate the end of the line
-    y_end_small_clock_right = y_center_small_clock_right - length_small_clock_seconds * math.cos(angle_milliseconds) #calculate the end of the line
+    x_end_small_clock_right = x_center_small_clock_right + line_lenght_small_clock_seconds * math.sin(angle_milliseconds) #calculate the end of the line
+    y_end_small_clock_right = y_center_small_clock_right - line_lenght_small_clock_seconds * math.cos(angle_milliseconds) #calculate the end of the line
 
 
     # Draw the hours big clock
