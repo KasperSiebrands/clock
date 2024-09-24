@@ -158,18 +158,17 @@ while run_flag is True:
     x_end_small_clock_right = x_center_small_clock_right + line_lenght_small_clock_seconds * math.sin(angle_milliseconds) #calculate the end of the line
     y_end_small_clock_right = y_center_small_clock_right - line_lenght_small_clock_seconds * math.cos(angle_milliseconds) #calculate the end of the line
 
-
-    # Draw the hours big clock
-    pygame.draw.line(screen, line_color_hours, (x_center_big_clock_hours, y_center_big_clock_hours), (x_end_big_clock_hours, y_end_big_clock_hours), line_width_hours)  #aaline is more soft around edges...
-    # Draw the minutes big clock
-    pygame.draw.line(screen, line_color_minutes, (x_center_big_clock_minutes, y_center_big_clock_minutes), (x_end_big_clock_minutes, y_end_big_clock_minutes), line_width_minutes)  #aaline is more soft around edges...
+    # Draw the millisecond hand right
+    pygame.draw.line(screen, line_color_seconds, (x_center_small_clock_right, y_center_small_clock_right), (x_end_small_clock_right, y_end_small_clock_right), line_width_seconds)  #aaline is more soft around edges...
+    
     # Draw the second hand left
     pygame.draw.line(screen, line_color_seconds, (x_center_small_clock_left, y_center_small_clock_left), (x_end_small_clock_left, y_end_small_clock_left), line_width_seconds)  #aaline is more soft around edges...
-    # Draw the second hand right
-    pygame.draw.line(screen, line_color_seconds, (x_center_small_clock_right, y_center_small_clock_right), (x_end_small_clock_right, y_end_small_clock_right), line_width_seconds)  #aaline is more soft around edges...
 
-
-
+    # Draw the minutes big clock
+    pygame.draw.line(screen, line_color_minutes, (x_center_big_clock_minutes, y_center_big_clock_minutes), (x_end_big_clock_minutes, y_end_big_clock_minutes), line_width_minutes)  #aaline is more soft around edges...
+ 
+    # Draw the hours big clock
+    pygame.draw.line(screen, line_color_hours, (x_center_big_clock_hours, y_center_big_clock_hours), (x_end_big_clock_hours, y_end_big_clock_hours), line_width_hours)  #aaline is more soft around edges...
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
