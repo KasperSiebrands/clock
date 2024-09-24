@@ -12,6 +12,7 @@ background_color = (255,255,255)
 
 clock = pygame.time.Clock()
 
+#information about big clock, where hours and minutes are shown
 big_clock_color = (0,0,0)
 big_clock_position = (400, 400)
 big_clock_radius = 380
@@ -19,6 +20,11 @@ big_clock_widht = 10
 big_clock_hour_text_lenght =  40
 big_clock_text_space = 2
 
+#information about the little center-dot to show the middle of the clock  
+dot_clock_radius = 10
+dot_clock_width = 100
+
+#information about the smaller clocks inside the bigger one, here are seconds and miliseconds shown.
 small_clock_color = (100,100,100)
 small_clock_position_left = (250, 525)
 small_clock_position_right = (550, 525)
@@ -26,12 +32,13 @@ small_clock_radius = 100
 small_clock_width = 5
 small_clock_text_space = 2
 
+#information about the hands who show what time it is.
 line_color_hours = (0,0,0)
-line_width_hours = 20
+line_width_hours = 10
 line_length_big_clock_hours = 200
 
 line_color_minutes = (0,0,0)
-line_width_minutes = 15
+line_width_minutes = 10
 line_length_big_clock_minutes = 350
 minute_text_length = 20
 
@@ -40,6 +47,7 @@ line_width_seconds = 3
 line_lenght_small_clock_seconds = 90
 second_text_length = 10
 
+#calculation for smaller en bigger clocks.
 x_center_small_clock_left, y_center_small_clock_left = small_clock_position_left
 x_center_small_clock_right, y_center_small_clock_right = small_clock_position_right
 
@@ -58,6 +66,8 @@ while run_flag is True:
     pygame.draw.circle(screen, small_clock_color, small_clock_position_left, small_clock_radius, small_clock_width) #where to draw, colour, placement, radius, width
     #setup clock small right
     pygame.draw.circle(screen, small_clock_color, small_clock_position_right, small_clock_radius, small_clock_width) #where to draw, colour, placement, radius, width
+
+    pygame.draw.circle(screen, big_clock_color, big_clock_position, dot_clock_radius, dot_clock_width)
 
     #added numbers to the hours
     font = pygame.font.SysFont(None, 40)
