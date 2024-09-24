@@ -17,12 +17,14 @@ big_clock_position = (400, 400)
 big_clock_radius = 380
 big_clock_widht = 10
 big_clock_hour_text_lenght =  40
+big_clock_text_space = 2
 
 small_clock_color = (100,100,100)
 small_clock_position_left = (250, 525)
 small_clock_position_right = (550, 525)
 small_clock_radius = 100
 small_clock_width = 5
+small_clock_text_space = 2
 
 line_color_hours = (0,0,0)
 line_width_hours = 20
@@ -87,13 +89,14 @@ while run_flag is True:
         text_rect = text.get_rect(center=(x, y)) #setting up possition for text
         screen.blit(text, text_rect) #draw the text
 
+
      # Add second-marks to the small clock, it reads first in document so it's a lower layer than the minutemark so it overlaps as wanted.
     for second in range(60):
         angle_text_seconds = math.radians(second * 6 - 90)
         x_start = small_clock_position_left[0] + (small_clock_radius - second_text_length) * math.cos(angle_text_seconds)
         y_start = small_clock_position_left[1] + (small_clock_radius - second_text_length) * math.sin(angle_text_seconds)
-        x_end = small_clock_position_left[0] + small_clock_radius * math.cos(angle_text_seconds)
-        y_end = small_clock_position_left[1] + small_clock_radius * math.sin(angle_text_seconds)
+        x_end = small_clock_position_left[0] + (small_clock_radius - small_clock_text_space) * math.cos(angle_text_seconds)
+        y_end = small_clock_position_left[1] + (small_clock_radius - small_clock_text_space) * math.sin(angle_text_seconds)
         
         pygame.draw.line(screen, small_clock_color, (x_start, y_start), (x_end, y_end), 1)
         
@@ -102,8 +105,8 @@ while run_flag is True:
         angle_text_milliseconds = math.radians(millisecond * 0.36 - 90)
         x_start = small_clock_position_right[0] + (small_clock_radius - second_text_length) * math.cos(angle_text_milliseconds)
         y_start = small_clock_position_right[1] + (small_clock_radius - second_text_length) * math.sin(angle_text_milliseconds)
-        x_end = small_clock_position_right[0] + small_clock_radius * math.cos(angle_text_milliseconds)
-        y_end = small_clock_position_right[1] + small_clock_radius * math.sin(angle_text_milliseconds)
+        x_end = small_clock_position_right[0] + (small_clock_radius - small_clock_text_space) * math.cos(angle_text_milliseconds)
+        y_end = small_clock_position_right[1] + (small_clock_radius - small_clock_text_space) * math.sin(angle_text_milliseconds)
         
         pygame.draw.line(screen, small_clock_color, (x_start, y_start), (x_end, y_end), 1)
     
@@ -112,8 +115,8 @@ while run_flag is True:
         angle_text_minutes = math.radians(minute * 6 - 90) #-90 to start at top
         x_start = big_clock_position[0] + (big_clock_radius - minute_text_length) * math.cos(angle_text_minutes)
         y_start = big_clock_position[1] + (big_clock_radius - minute_text_length) * math.sin(angle_text_minutes)
-        x_end = big_clock_position[0] + big_clock_radius * math.cos(angle_text_minutes) 
-        y_end = big_clock_position[1] + big_clock_radius * math.sin(angle_text_minutes) 
+        x_end = big_clock_position[0] + (big_clock_radius - big_clock_text_space) * math.cos(angle_text_minutes) 
+        y_end = big_clock_position[1] + (big_clock_radius - big_clock_text_space) * math.sin(angle_text_minutes) 
     
         pygame.draw.line(screen, big_clock_color, (x_start, y_start), (x_end, y_end), 4)
     
