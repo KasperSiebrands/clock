@@ -1,6 +1,6 @@
 import pygame # add the libary for this assignment (recommended)
 import math # add the possibility to use math or functions to be used for the watch
-from datetime import datetime
+from datetime import datetime, timedelta
 
 #initialize Pygame
 pygame.init()
@@ -31,8 +31,13 @@ font_hours = pygame.font.SysFont(None, 40)
 font_seconds = pygame.font.SysFont(None, 10)
 font_milliseconds = pygame.font.SysFont(None, 10)
 
+#state variables stopwatch
+duration_stopwatch = timedelta()
+paused_time = timedelta(0)  # Variabele om de gepauzeerde tijd op te slaan
+stopwatch_running = False  # Variabele om bij te houden of de stopwatch loopt of niet
+click_count = 0  # Houdt bij hoeveel keer er is geklikt
 
-#information about big clock, where hours and minutes are shown
+#state variables for big clock, where hours and minutes are shown
 big_clock_color = (0,0,0)
 big_clock_position = (400, 400)
 big_clock_radius = 380
@@ -78,8 +83,6 @@ x_center_small_clock_right, y_center_small_clock_right = small_clock_position_ri
 x_center_big_clock_minutes, y_center_big_clock_minutes = big_clock_position[0], big_clock_position[1]
 x_center_big_clock_hours, y_center_big_clock_hours = big_clock_position[0], big_clock_position[1]
 
-
-
 #Make sure the window stays open until the user closes it copied from draw.py
 #here is the loop where all animations happen...
 run_flag = True
@@ -98,16 +101,20 @@ while run_flag is True:
     pygame.draw.circle(screen, small_clock_color, small_clock_position_left, dot_small_clock_radius, dot_small_clock_width)
     pygame.draw.circle(screen, small_clock_color, small_clock_position_right, dot_small_clock_radius, dot_small_clock_width)
 
-    # Draw the text on the screen
+    #Draws the text on the screen
     screen.blit(information_text, information_rect)
     screen.blit(name_text, name_rect)
 
     #added a stopwatch function
     if now_start is not None:
-        duration = datetime.now() - now_start
-        duration_text = font_name.render(f'{duration}', True, (0, 0, 0))  #render/print the "watches" text in black
-        duration_rect = name_text.get_rect(center=(400, 250))  #position of the timer
-        screen.blit(duration_text, duration_rect) #draw the text
+        if stopwatch_running:
+            duration_stopwatch = datetime.now() - now_start + paused_time
+        else:
+            duration = paused_time
+
+    duration_text = font_name.render(f'{duration_stopwatch}', True, (0, 0, 0))  # Render/print de tijd in zwart
+    duration_rect = duration_text.get_rect(center=(400, 250))  # Positioneer de timer
+    screen.blit(duration_text, duration_rect)  # Teken de tekst
 
     #added numbers to the hours
     for hour in range(1, 13): #1-13 is 12 steps....
@@ -209,8 +216,29 @@ while run_flag is True:
     pygame.draw.line(screen, line_color_hours, (x_center_big_clock_hours, y_center_big_clock_hours), (x_end_big_clock_hours, y_end_big_clock_hours), line_width_hours)  #aaline is more soft around edges...
 
     for event in pygame.event.get():
+
+        #added a system to pause and reset the timer
         if event.type == pygame.MOUSEBUTTONUP:
-            now_start = datetime.now()
+            click_count += 1  #adds 1 click to the counter
+
+        if click_count == 1: #if counter is equal to 1 it wil proceed
+            if stopwatch_running:     #checks if stopwatch is still running
+                stopwatch_running = False
+                paused_time += datetime.now() - now_start  #calculates the time
+            else:
+                stopwatch_running = True
+                now_start = datetime.now()  #starts the stopwatch
+
+        elif click_count == 2:
+            #reset the stopwatch and see time
+            stopwatch_running = False
+            click_count = 0  #sets score to 0 again
+            now_start = None  #resets the nowstart to startvalue
+            paused_time = timedelta()  #reset paused time using timedelta
+                
+    #function to close the window
+    if event.type == pygame.QUIT:
+        run_flag = False
         if event.type == pygame.QUIT:
             run_flag = False
 
