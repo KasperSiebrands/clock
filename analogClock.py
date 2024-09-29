@@ -12,6 +12,9 @@ background_color = (255,255,255)
 
 clock = pygame.time.Clock()
 
+#setup start, for stopwatch function. None is needed so it doesnt start when window is open
+now_start = None
+
 
 #text information made y and name
 font_made_by = pygame.font.SysFont(None, 15)  # Set font and size for the name
@@ -75,6 +78,8 @@ x_center_small_clock_right, y_center_small_clock_right = small_clock_position_ri
 x_center_big_clock_minutes, y_center_big_clock_minutes = big_clock_position[0], big_clock_position[1]
 x_center_big_clock_hours, y_center_big_clock_hours = big_clock_position[0], big_clock_position[1]
 
+
+
 #Make sure the window stays open until the user closes it copied from draw.py
 #here is the loop where all animations happen...
 run_flag = True
@@ -96,6 +101,13 @@ while run_flag is True:
     # Draw the text on the screen
     screen.blit(information_text, information_rect)
     screen.blit(name_text, name_rect)
+
+    #added a stopwatch function
+    if now_start is not None:
+        duration = datetime.now() - now_start
+        duration_text = font_name.render(f'{duration}', True, (0, 0, 0))  #render/print the "watches" text in black
+        duration_rect = name_text.get_rect(center=(400, 250))  #position of the timer
+        screen.blit(duration_text, duration_rect) #draw the text
 
     #added numbers to the hours
     for hour in range(1, 13): #1-13 is 12 steps....
@@ -197,6 +209,8 @@ while run_flag is True:
     pygame.draw.line(screen, line_color_hours, (x_center_big_clock_hours, y_center_big_clock_hours), (x_end_big_clock_hours, y_end_big_clock_hours), line_width_hours)  #aaline is more soft around edges...
 
     for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONUP:
+            now_start = datetime.now()
         if event.type == pygame.QUIT:
             run_flag = False
 
