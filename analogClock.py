@@ -45,14 +45,14 @@ big_clock_widht = 10
 big_clock_hour_text_lenght =  40
 big_clock_text_space = 2
 
-#information about the little center-dot to show the middle of the each clock  
+#state variables for the little center-dot to show the middle of the each clock  
 dot_big_clock_radius = 10
 dot_big_clock_width = 100
 
 dot_small_clock_radius = 5
 dot_small_clock_width = 100
 
-#information about the smaller clocks inside the bigger one, here are seconds and miliseconds shown.
+#state variables for the smaller clocks inside the bigger one, here are seconds and miliseconds shown.
 small_clock_color = (100,100,100)
 small_clock_position_left = (250, 525)
 small_clock_position_right = (550, 525)
@@ -61,7 +61,7 @@ small_clock_width = 5
 small_clock_hour_text_lenght =  20
 small_clock_text_space = 2
 
-#information about the hands who show what time it is.
+#state variables for the hands who show what time it is.
 line_color_hours = (0,0,0)
 line_width_hours = 10
 line_length_big_clock_hours = 200
